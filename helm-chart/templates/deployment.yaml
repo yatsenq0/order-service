@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "order-service-chart.fullname" . }}
+  labels:
+    app: {{ include "order-service-chart.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "order-service-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "order-service-chart.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "order-service-chart.fullname" . }}
+                  key: SPRING_PROFILES_ACTIVE
+            - name: JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "order-service-chart.fullname" . }}
+                  key: JPA_HIBERNATE_DDL_AUTO
+            - name: LOGGING_LEVEL_ROOT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "order-service-chart.fullname" . }}
+                  key: LOGGING_LEVEL_ROOT
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "order-service-chart.fullname" . }}
+                  key: password
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
