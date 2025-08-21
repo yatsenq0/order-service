@@ -69,19 +69,47 @@
 order-service/
 ├── src/main/java
 │   ├── com/example/orderservice
-│   │   ├── controller      # REST-контроллеры
-│   │   ├── model           # JPA-сущности
-│   │   ├── repository      # Spring Data JPA репозитории
-│   │   ├── service         # Бизнес-логика
+│   │   ├── controller
+│   │   │   └── OrderController.java
+│   │   ├── model
+│   │   │   └── Order.java
+│   │   ├── repository
+│   │   │   └── OrderRepository.java
+│   │   ├── service
+│   │   │   └── OrderService.java
+│   │   ├── config
+│   │   │   ├── KafkaConfig.java
+│   │   │   └── SecurityConfig.java
 │   │   └── OrderServiceApplication.java
 ├── src/main/resources
-│   ├── application.yml     # Основная конфигурация приложения
-│   └── logback-spring.xml  # Конфигурация логирования
-├── src/test/java
-│   └── com/example/orderservice/service/OrderServiceTest.java # Юнит-тесты
-├── Dockerfile              # Инструкции для сборки Docker-образа
-├── helm-chart/             # Готовый Helm-чарт для оркестрации в Kubernetes
-└── pom.xml                 # Конфигурация Maven и зависимости
+│   ├── application.yml
+│   ├── application-dev.yml
+│   ├── application-prod.yml
+│   └── logback-spring.xml
+├── Dockerfile
+├── docker-compose.yml
+├── helm-chart/
+│   ├── Chart.yaml
+│   ├── values.yaml
+│   ├── values-dev.yaml
+│   ├── values-prod.yaml
+│   ├── values-eks.yaml
+│   └── templates/
+│       ├── deployment.yaml
+│       ├── service.yaml
+│       ├── configmap.yaml
+│       ├── secret.yaml
+│       ├── ingress.yaml
+│       └── _helpers.tpl
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   └── terraform.tfvars
+├── .github/workflows/
+│   └── ci-cd.yml
+└── pom.xml
 ```
 
 ---
