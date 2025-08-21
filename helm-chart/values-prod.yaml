@@ -1,0 +1,27 @@
+replicaCount: 3
+image:
+  tag: "1.1"
+  repository: 123456789012.dkr.ecr.us-west-2.amazonaws.com/order-service
+  pullPolicy: Always
+service:
+  type: ClusterIP
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+  hosts:
+    - host: orders.mycompany.com
+      paths:
+        - path: /api/orders
+          pathType: Prefix
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+config:
+  spring_profiles_active: prod
