@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: \${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/orderdb}
+    username: \${SPRING_DATASOURCE_USERNAME:postgres}
+    password: \${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: \${JPA_HIBERNATE_DDL_AUTO:create-drop}
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.example.orderservice: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file:
+      name: logs/order-service.log
+      max-size: 10MB
+      max-history: 7
